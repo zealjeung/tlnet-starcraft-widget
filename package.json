@@ -1,0 +1,20 @@
+{
+  "name": "tlnet-widget",
+  "version": "1.0.0",
+  "description": "Always-on-top TL.net StarCraft / Brood War desktop widget",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "test": "node test/run-all-tests.js",
+    "test:checks": "node test/run-all-checks.js",
+    "test:live": "node test/live.check.js"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "ws": "^8.22.0"
+  },
+  "allowScripts": {
+    "electron@33.4.11": true
+  }
+}

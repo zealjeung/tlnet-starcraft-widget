@@ -1,0 +1,44 @@
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+
+# Logs & temporary files
+*.log
+*.tmp
+widget.log*
+cdp.log
+tln.log
+
+# App state & user data
+widget-state.json
+
+# GemYT analysis cache (may contain video content)
+cache-gemyt.json
+analyses/
+journal.md
+
+# Build & distribution output
+dist/
+build/
+out/
+
+# Backup & scratch files
+*.bak*
+*.swp
+*~
+scratch/
+
+# Windows artifacts
+nul
+Thumbs.db
+Desktop.ini
+
+# Personal FemSC streamer list — local only, never commit
+data/femsc-custom.json
+
+# Personal FemSC streamer list — local only, never commit
+data/femsc-custom.json

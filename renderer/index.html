@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data: https://liquipedia.net; style-src 'self' 'unsafe-inline'; script-src 'self';" />
+    <title>TL.net — StarCraft</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="shell">
+      <div id="banner" title="Click to set a banner image">
+        <span class="banner-hint">Click to add a banner</span>
+        <input id="banner-input" type="file" accept="image/*" hidden />
+      </div>
+
+      <header id="titlebar">
+        <div class="brand">
+          <span class="logo">TL</span>
+          <span class="brandtext">StarCraft<span class="dim">.net</span></span>
+        </div>
+        <div class="winbtns">
+          <button id="btn-refresh" title="Refresh now">⟳</button>
+          <button id="btn-pin" title="Always on top">📌</button>
+          <button id="btn-hide" title="Hide to tray">–</button>
+          <button id="btn-quit" title="Quit">✕</button>
+        </div>
+      </header>
+
+      <nav id="tabs">
+        <button class="tab" data-tab="news">News</button>
+        <button class="tab active" data-tab="matches">Matches</button>
+        <button class="tab" data-tab="analysis">Analysis</button>
+        <button class="tab" data-tab="tournaments">Events</button>
+        <button class="tab" data-tab="streams">Streams</button>
+        <button class="tab" data-tab="femsc">FemSC</button>
+        <button class="tab" data-tab="buildorders">Builds</button>
+        <button class="tab" data-tab="replays">Replays</button>
+        <button class="tab" data-tab="books">Books</button>
+        <button class="tab" data-tab="journal">Journal</button>
+        <button class="tab" data-tab="gemyt">GemYT</button>
+      </nav>
+
+      <div id="filterbar">
+        <button class="chip active" data-game="ALL">All</button>
+        <button class="chip" data-game="SC2">SC2</button>
+        <button class="chip" data-game="BW">Brood War</button>
+        <span id="livecount"></span>
+      </div>
+
+      <main id="content">
+      <div id="integrity" class="integrity" style="display:none"></div>
+        <section id="panel-news" class="panel">
+          <div class="loading">Loading TL.net news…</div>
+        </section>
+        <section id="panel-matches" class="panel active">
+          <div class="loading">Loading matches…</div>
+        </section>
+        <section id="panel-analysis" class="panel">
+          <div class="analysis-bar">
+            <button id="btn-run-analysis" class="run-analysis-btn" title="Check for pending analysis requests">▶ Run Analysis</button>
+            <span id="analysis-pending-count" class="analysis-pending-count"></span>
+          </div>
+          <div class="loading">Loading analyzed matches…</div>
+        </section>
+        <section id="panel-tournaments" class="panel">
+          <div class="loading">Loading events…</div>
+        </section>
+        <section id="panel-streams" class="panel">
+          <div class="loading">Loading streams…</div>
+        </section>
+        <section id="panel-femsc" class="panel">
+          <div class="femsc-addbar">
+            <input id="femsc-url" type="text" placeholder="Paste SOOP streamer URL or bjid" />
+            <button id="femsc-add">Add</button>
+          </div>
+          <div id="femsc-status" class="femsc-status"></div>
+          <div id="femsc-list"><div class="loading">Loading female SC streams…</div></div>
+        </section>
+        <section id="panel-buildorders" class="panel">
+          <div id="bo-filterbar" class="bo-filterbar">
+            <button class="bo-chip active" data-mu="pvx">All</button>
+            <button class="bo-chip" data-mu="pvt">PvT</button>
+            <button class="bo-chip" data-mu="pvz">PvZ</button>
+            <button class="bo-chip" data-mu="pvp">PvP</button>
+            <button class="bo-chip" data-mu="tvp">TvP</button>
+            <button class="bo-chip" data-mu="tvz">TvZ</button>
+            <button class="bo-chip" data-mu="tvt">TvT</button>
+            <button class="bo-chip" data-mu="zvp">ZvP</button>
+            <button class="bo-chip" data-mu="zvz">ZvZ</button>
+            <button class="bo-chip" data-mu="zvt">ZvT</button>
+          </div>
+          <div id="bo-list" class="bo-list"><div class="loading">Loading build orders…</div></div>
+        </section>
+        <section id="panel-replays" class="panel">
+          <div class="replays-search">
+            <input id="replay-input" type="text" placeholder="Filter by player (e.g. Mini, Bisu) — latest games only…" />
+            <button id="replay-go">Search</button>
+          </div>
+          <div class="replays-matchups">
+            <button class="chip mu-chip active" data-mu="ALL">All</button>
+            <button class="chip mu-chip" data-mu="PvT">PvT</button>
+            <button class="chip mu-chip" data-mu="PvZ">PvZ</button>
+            <button class="chip mu-chip" data-mu="PvP">PvP</button>
+          </div>
+          <div id="replay-note" class="replay-note">Latest public games from RepMastered. Full archive search + downloads need a (free) site login — rows link out.</div>
+          <div id="replay-list" class="replay-list"><div class="loading">Loading latest replays…</div></div>
+        </section>
+        <section id="panel-books" class="panel">
+          <div class="books-bar">
+            <button id="book-add">+ Add book</button>
+            <input id="book-file" type="file" accept=".pdf,.epub,.mobi,.txt,.cbr" hidden />
+            <input id="book-cover" type="file" accept="image/*" hidden />
+          </div>
+          <div id="book-list" class="book-list"><div class="loading">No books yet — add a PDF/EPUB/MOBI/TXT/CBR.</div></div>
+        </section>
+        <section id="panel-journal" class="panel">
+          <div class="journal-bar"><span id="journal-status" class="journal-status"></span></div>
+          <textarea id="journal-text" class="journal-text" placeholder="Games progress, strategies, notes… (auto-saves as you type)"></textarea>
+          <div id="journal-resizer" class="journal-resizer" title="Drag to resize · double-click to collapse/expand"></div>
+          <div class="journal-chat">
+            <div class="journal-chat-head">
+              <span>Strategy Chat</span>
+              <span class="journal-chat-hint">Discuss builds, matchups, notes</span>
+              <button id="journal-chat-clear" title="Clear conversation">clear</button>
+            </div>
+            <div id="journal-chat-msgs" class="journal-chat-msgs">
+              <div class="journal-msg sys">Ask about strategies, build orders, or your journal notes.</div>
+            </div>
+            <div class="journal-chatbar">
+              <input id="journal-chat-input" type="text" spellcheck="false" placeholder="Discuss strategy… (Enter to send)" />
+              <button id="journal-chat-send">Send</button>
+            </div>
+          </div>
+        </section>
+        <section id="panel-gemyt" class="panel">
+          <div class="gemyt-bar">
+            <input id="gemyt-url" type="text" spellcheck="false"
+                   placeholder="Paste a YouTube link — Gemini watches it for you" />
+            <button id="gemyt-go">Analyze</button>
+          </div>
+          <div id="gemyt-modes" class="gemyt-modes">
+            <button class="chip active" data-mode="summary">Summary</button>
+            <button class="chip" data-mode="moments">Key moments</button>
+            <button class="chip" data-mode="buildorders">Build orders</button>
+            <button class="chip" data-mode="strategy">Strategy</button>
+            <button class="chip" data-mode="qa">Q&amp;A</button>
+            <label class="gemyt-force" title="Ignore the cache and re-analyze">
+              <input id="gemyt-force" type="checkbox" /> force</label>
+          </div>
+          <div id="gemyt-qa-wrap" class="gemyt-qa" style="display:none">
+            <input id="gemyt-q" type="text" placeholder="Ask a question about the video…" />
+          </div>
+          <div id="gemyt-hint" class="gemyt-hint">Public YouTube videos only · no download · free (preview)</div>
+          <div id="gemyt-timer" class="gemyt-timer"></div>
+          <div id="gemyt-out" class="gemyt-out">
+            <div class="loading">Paste a YouTube link to analyze.</div>
+          </div>
+          <div id="gemyt-foot" class="gemyt-foot" style="display:none">
+            <span id="gemyt-meta"></span>
+            <span class="gemyt-actions">
+              <button id="gemyt-copy">Copy</button>
+              <button id="gemyt-journal">Save to Journal</button>
+              <button id="gemyt-rerun">Re-run</button>
+            </span>
+          </div>
+          <div class="gemyt-chat">
+            <div class="gemyt-chat-head">
+              <span>Chat about this video</span>
+              <span id="gemyt-tokens" class="gemyt-tokens" title="Session token use (guardrail cap: 3M)"></span>
+              <span id="gemyt-chat-timer" class="gemyt-tokens" title="Last request"></span>
+              <button id="gemyt-chat-forward" title="Forward conversation to Journal">→ Journal</button>
+              <button id="gemyt-chat-clear" title="Clear the conversation">clear</button>
+            </div>
+            <div id="gemyt-msgs" class="gemyt-msgs">
+              <div class="gemyt-msg sys">Paste a YouTube link above, then ask anything about it.</div>
+            </div>
+            <div class="gemyt-chatbar">
+              <input id="gemyt-chat-input" type="text" spellcheck="false"
+                     placeholder="Ask about this video…  (Enter to send)" />
+              <button id="gemyt-chat-send">Send</button>
+            </div>
+          </div>
+          <div id="gemyt-recent" class="gemyt-recent"></div>
+        </section>
+      </main>
+
+      <footer id="statusbar">
+        <span id="status">starting…</span>
+        <button id="btn-run-analysis-bar" class="statusbar-btn" title="Check for pending analysis requests">▶ Analysis</button>
+        <label id="opacity-wrap" title="Opacity">
+          <input id="opacity" type="range" min="45" max="100" value="100" />
+        </label>
+        <label id="sfx-wrap" title="Tab sound volume">
+          <span class="sfx-ico">♪</span>
+          <input id="sfx" type="range" min="0" max="100" value="40" />
+        </label>
+        <button id="liq-toggle" title="Liquipedia: OFF = never fetch. Pull-only = fetch only on Refresh">Liquipedia: OFF</button>
+        <span id="liq-age" title="Time since last Liquipedia pull">never</span>
+      </footer>
+    </div>
+    <script src="audio.js"></script>
+    <script src="livetourn.js"></script>
+    <script src="tabs/gemyt.js"></script>
+    <script src="tabs/analysis.js"></script>
+    <script src="tabs/replays.js"></script>
+    <script src="lib/format.js"></script>
+    <script src="renderer.js"></script>
+  </body>
+</html>
